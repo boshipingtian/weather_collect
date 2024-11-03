@@ -73,7 +73,7 @@ func createProvince(result *[]models.City) (map[int]models.City, error) {
 		}
 		provinceCity := models.City{
 			ID:       provinceId,
-			CityType: models.CityTypeProvince.Id,
+			CityType: models.CityTypeEnumProvince.Id,
 			CityName: item.Name,
 			// china
 			CountryID: 45,
@@ -105,7 +105,7 @@ func createCity(result *[]models.City, provinceMap map[int]models.City) (map[int
 		city := models.City{
 			ID:        cityId,
 			CityName:  item.Name,
-			CityType:  models.CityTypeCity.Id,
+			CityType:  models.CityTypeEnumCity.Id,
 			ParentID:  provinceMap[provinceKey].ID,
 			CountryID: 45,
 			Sorts:     citySortId,
@@ -115,4 +115,43 @@ func createCity(result *[]models.City, provinceMap map[int]models.City) (map[int
 		*result = append(*result, city)
 	}
 	return cityProvinceMap, nil
+}
+
+func DeleteAllCityType() error {
+	db := global.DB
+	tx := db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			global.Logger.Errorln("事务回滚", r)
+		}
+	}()
+	if err := tx.Exec("TRUNCATE TABLE weather_colly.CITY_TYPE").Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
+func InsertAllCityType() error {
+	db := global.DB
+	list := models.CityTypeEnum{}.List()
+	var cityTypes []models.CityType
+	for _, item := range list {
+		cityType := models.CityType{
+			ID:        item.Id,
+			Name:      item.Name,
+			CountryID: 45,
+		}
+		cityTypes = append(cityTypes, cityType)
+	}
+	tx := db.Begin()
+	if err := tx.Create(&cityTypes).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	global.Logger.Infoln("insert all city type success!")
+	return nil
 }

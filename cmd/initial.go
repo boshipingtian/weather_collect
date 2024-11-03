@@ -12,8 +12,12 @@ func main() {
 	global.Logger.Infoln("initial is running!")
 	global.Logger.Infoln("initial country!")
 	utils.ExecuteWithErrorHandling(services.InsertAllCountry)
+	global.Logger.Infoln("initial city type!")
+	utils.ExecuteWithErrorHandling(services.InsertAllCityType)
 	global.Logger.Infoln("initial city!")
 	utils.ExecuteWithErrorHandling(services.InsertAllCity)
 	global.Logger.Infoln("initial weather city code!")
 	utils.ExecuteWithErrorHandling(services.InsertAllWeatherCode)
+	global.Logger.Infoln("initial weather type code!")
+	utils.ExecuteWithErrorHandling(services.InsertAllWeatherType)
 }

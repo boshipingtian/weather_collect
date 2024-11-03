@@ -17,7 +17,7 @@ func (city City) TableName() string {
 type CityType struct {
 	ID        int    `json:"id" gorm:"primaryKey;column:Id"`      // 主键
 	Name      string `json:"Name" gorm:"column:NAME"`             // 类型
-	CountryID string `json:"country_id" gorm:"column:COUNTRY_ID"` // 国家ID
+	CountryID int    `json:"country_id" gorm:"column:COUNTRY_ID"` // 国家ID
 	BaseEntity
 }
 
@@ -27,17 +27,16 @@ func (cityType CityType) TableName() string {
 
 // CityTypeEnum define enum
 type CityTypeEnum struct {
-	Id   int
-	Name string
+	BaseEnum
 }
 
 var (
-	CityTypeProvince = CityTypeEnum{Id: 1, Name: "province"}
-	CityTypeCity     = CityTypeEnum{Id: 2, Name: "city"}
-	CityTypeArea     = CityTypeEnum{Id: 3, Name: "area"}
-	CityTypeTown     = CityTypeEnum{Id: 4, Name: "town"}
+	CityTypeEnumProvince = CityTypeEnum{BaseEnum{Id: 1, Name: "province"}}
+	CityTypeEnumCity     = CityTypeEnum{BaseEnum{Id: 2, Name: "city"}}
+	CityTypeEnumArea     = CityTypeEnum{BaseEnum{Id: 3, Name: "area"}}
+	CityTypeEnumTown     = CityTypeEnum{BaseEnum{Id: 4, Name: "town"}}
 )
 
-func (e CityTypeEnum) List() []CityTypeEnum {
-	return []CityTypeEnum{CityTypeProvince, CityTypeCity, CityTypeArea, CityTypeTown}
+func (receiver CityTypeEnum) List() []CityTypeEnum {
+	return []CityTypeEnum{CityTypeEnumProvince, CityTypeEnumCity, CityTypeEnumArea, CityTypeEnumTown}
 }

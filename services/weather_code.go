@@ -34,7 +34,7 @@ func InsertAllWeatherCode() error {
 	var cityNameMap = make(map[string]int)
 	var cities []models.City
 
-	if err := db.Where(models.City{CityType: models.CityTypeCity.Id}).Find(&cities).Error; err != nil {
+	if err := db.Where(models.City{CityType: models.CityTypeEnumCity.Id}).Find(&cities).Error; err != nil {
 		return err
 	}
 	for _, item := range cities {
