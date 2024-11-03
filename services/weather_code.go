@@ -51,7 +51,7 @@ func InsertAllWeatherCode() error {
 		if value, exist := cityNameMap[item.Name]; exist {
 			if _, ok := existCityCode[value]; !ok {
 				pingyin := createPingyin(item.Name)
-				cityCode := models.WeatherCityCode{CityID: value, Code: item.Code, CityPingyin: pingyin}
+				cityCode := models.WeatherCityCode{CityID: value, Code: item.Code, CityPinyin: pingyin}
 				weatherCityCode = append(weatherCityCode, cityCode)
 				existCityCode[value] = value
 			}

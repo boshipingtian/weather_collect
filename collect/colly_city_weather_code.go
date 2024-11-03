@@ -21,7 +21,7 @@ func CollyWeatherCode() []CollyCityWeatherCode {
 	collector := colly.NewCollector()
 	// 设置请求头，模拟浏览器
 	collector.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36")
+		r.Headers.Set("User-Agent", CommonUserAgent)
 	})
 	// 处理响应
 	collector.OnHTML("#cnblogs_post_body > ul", func(e *colly.HTMLElement) {
