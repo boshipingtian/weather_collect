@@ -2,6 +2,9 @@
 
 ## 技术栈
 - golang 1.23.1
+- gorm
+- mysql
+- logrus
 - colly
 - go-pinyin
 
