@@ -1,6 +1,11 @@
 package crontab
 
-import "weather-colly/global"
+import (
+	"fmt"
+	"time"
+	"weather-colly/collect"
+	"weather-colly/global"
+)
 
 type CollyWeather struct {
 }
@@ -10,5 +15,8 @@ func (c CollyWeather) getName() string {
 }
 
 func (c CollyWeather) Run() {
-	global.Logger.Infoln("cronjob")
+	now := time.Now()
+	global.Logger.Infoln(fmt.Sprintf("%s 开始执行 气象采集程序",
+		now.Format("2006-01-02 15:04:05")))
+	collect.CityCollect()
 }

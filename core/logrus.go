@@ -62,7 +62,7 @@ func InitLogger() {
 	logger.SetOutput(os.Stdout)          // 设置输出
 	logger.SetFormatter(&LogFormatter{}) // 设置格式化
 	logger.SetReportCaller(true)         // 设置是否显示行号
-	logger.SetLevel(logrus.DebugLevel)   // 设置日志等级
+	logger.SetLevel(logrus.InfoLevel)    // 设置日志等级
 	logger.Infoln("logrus setting success")
 	global.Logger = logger
 }

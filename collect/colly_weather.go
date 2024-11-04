@@ -5,6 +5,8 @@ import (
 	"github.com/gocolly/colly/v2"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"time"
 	"weather-colly/global"
 	"weather-colly/models"
@@ -33,7 +35,21 @@ type WeatherPinyin struct {
 	Code       int    `gorm:"column:CODE"`
 }
 
+func MultiCityCollect(results []WeatherPinyin, total *int32, count *int32, wg *sync.WaitGroup) {
+	defer wg.Done() // 处理完一组后通知 WaitGroup
+	for _, item := range results {
+		weather, _ := collectWeather(item.CityPinyin + "-" + strconv.Itoa(item.Code))
+		global.Logger.Infoln(weather)
+		modelsWeather := convertToModelsWeather(weather, item)
+		global.Logger.Infoln(modelsWeather)
+		insertToDatabase(&modelsWeather)
+		global.Logger.Infoln(fmt.Sprintf("当前 %d，剩余 %d", *count, *total-*count))
+		atomic.AddInt32(count, 1)
+	}
+}
+
 func CityCollect() {
+	var wg sync.WaitGroup
 	db := global.DB
 	var results []WeatherPinyin
 	err := db.Table("CITY as C").
@@ -45,16 +61,27 @@ func CityCollect() {
 		global.Logger.Errorln("查询失败:", err)
 		return
 	}
-	i := 1
-	for _, item := range results {
-		weather, _ := collectWeather(item.CityPinyin + "-" + strconv.Itoa(item.Code))
-		global.Logger.Infoln(weather)
-		modelsWeather := convertToModelsWeather(weather, item)
-		global.Logger.Infoln(modelsWeather)
-		insertToDatabase(&modelsWeather)
-		global.Logger.Infoln(fmt.Sprintf("当前 %d，剩余 %d", i, len(results)-i))
-		i++
+	if len(results) == 0 {
+		global.Logger.Infoln("要采集的数据为空")
+		return
 	}
+	var total = int32(len(results))
+	groups := int32(5)
+	groupSize := (total + groups - 1) / groups
+	var count int32
+	for i := int32(0); i < groups; i++ {
+		start := i * groupSize
+		end := start + groupSize
+		if start > total {
+			break
+		}
+		if end > total {
+			end = total
+		}
+		wg.Add(1)
+		go MultiCityCollect(results[start:end], &total, &count, &wg)
+	}
+	wg.Wait()
 }
 
 // collectWeather 采集一个页面上的数据

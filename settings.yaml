@@ -10,4 +10,4 @@ crontab:
   open: true
   works:
     - name: colly_weather
-      crontab: "0/1 * * * * *"
+      crontab: "0 30 * * *"
