@@ -5,3 +5,9 @@ database:
   password: 15833097133duan!
   database: weather_colly
   options: charset=utf8mb4&parseTime=true&loc=Asia%2fShanghai
+
+crontab:
+  open: true
+  works:
+    - name: colly_weather
+      crontab: "0/1 * * * * *"

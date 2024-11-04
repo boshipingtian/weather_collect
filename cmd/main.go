@@ -1,15 +1,18 @@
 package main
 
 import (
-	"weather-colly/global"
+	"time"
 	"weather-colly/initial"
-	"weather-colly/services"
 )
 
 func main() {
 	initial.Init()
-
-	country := services.FindCountry("中国")
-
-	global.Logger.Infoln(country)
+	// Running forever
+	timer := time.NewTimer(time.Second * 10)
+	for {
+		select {
+		case <-timer.C:
+			timer.Reset(time.Second * 10)
+		}
+	}
 }

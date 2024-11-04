@@ -6,4 +6,5 @@ func Init() {
 	core.InitConfig()
 	core.InitLogger()
 	core.InitGorm()
+	core.InitCronTab()
 }
