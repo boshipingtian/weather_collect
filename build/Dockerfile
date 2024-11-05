@@ -1,5 +1,7 @@
 FROM golang:alpine AS builder
 
+ENV GOPROXY=https://goproxy.cn
+
 WORKDIR /build
 
 ADD go.mod .
