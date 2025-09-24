@@ -8,7 +8,7 @@ type WeatherType struct {
 }
 
 func (WeatherType) TableName() string {
-	return "WEATHER_TYPE"
+	return "weather_type"
 }
 
 type WeatherTypeEnum struct {

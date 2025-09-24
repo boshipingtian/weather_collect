@@ -11,8 +11,7 @@ RUN go build -o main cmd/main.go
 
 FROM alpine
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y tzdata
+RUN apk add --no-cache tzdata
 ENV TZ=Asia/Shanghai
 
 WORKDIR /build

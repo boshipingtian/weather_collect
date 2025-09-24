@@ -1,8 +1,8 @@
 database:
-  host: localhost
+  host: 192.168.192.208
   port: 3306
-  user: root
-  password: 15833097133duan!
+  user: weather_colly
+  password: fREhtsJxCKKyFY6F
   database: weather_colly
   options: charset=utf8mb4&parseTime=true&loc=Asia%2fShanghai
 

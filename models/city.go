@@ -1,28 +1,28 @@
 package models
 
 type City struct {
-	ID        int    `json:"id" gorm:"primaryKey;column:Id"`      // 主键
-	CityName  string `json:"city_name" gorm:"column:CITY_NAME"`   // 城市名
-	CityType  int    `json:"city_type" gorm:"column:CITY_TYPE"`   // 城市类型
-	ParentID  int    `json:"parent_id" gorm:"column:PARENT_ID"`   // 父节点ID
-	CountryID int    `json:"country_id" gorm:"column:COUNTRY_ID"` // 国家ID
-	Sorts     int    `json:"sorts" gorm:"column:SORTS"`           // 排序
+	ID        int    `json:"id" gorm:"primaryKey;column:id"`      // 主键
+	CityName  string `json:"city_name" gorm:"column:city_name"`   // 城市名
+	CityType  int    `json:"city_type" gorm:"column:city_type"`   // 城市类型
+	ParentID  int    `json:"parent_id" gorm:"column:parent_id"`   // 父节点ID
+	CountryID int    `json:"country_id" gorm:"column:country_id"` // 国家ID
+	Sorts     int    `json:"sorts" gorm:"column:sorts"`           // 排序
 	BaseEntity
 }
 
 func (city City) TableName() string {
-	return "CITY"
+	return "city"
 }
 
 type CityType struct {
-	ID        int    `json:"id" gorm:"primaryKey;column:Id"`      // 主键
-	Name      string `json:"Name" gorm:"column:NAME"`             // 类型
-	CountryID int    `json:"country_id" gorm:"column:COUNTRY_ID"` // 国家ID
+	ID        int    `json:"id" gorm:"primaryKey;column:id"`      // 主键
+	Name      string `json:"Name" gorm:"column:name"`             // 类型
+	CountryID int    `json:"country_id" gorm:"column:country_id"` // 国家ID
 	BaseEntity
 }
 
 func (cityType CityType) TableName() string {
-	return "CITY_TYPE"
+	return "city_type"
 }
 
 // CityTypeEnum define enum

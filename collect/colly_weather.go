@@ -2,7 +2,6 @@ package collect
 
 import (
 	"fmt"
-	"github.com/gocolly/colly/v2"
 	"strconv"
 	"strings"
 	"sync"
@@ -10,6 +9,8 @@ import (
 	"time"
 	"weather-colly/global"
 	"weather-colly/models"
+
+	"github.com/gocolly/colly/v2"
 )
 
 var (
@@ -130,7 +131,8 @@ func collectWeather(cityUrl string) (CollyWeather, string) {
 	if val, err := strconv.ParseFloat(temperature, 64); err == nil {
 		weather.Temperature = val
 	}
-	if val, err := time.Parse("2006-01-02 15:04", currentTime); err == nil {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	if val, err := time.ParseInLocation("2006-01-02 15:04", currentTime, loc); err == nil {
 		weather.Datetime = &val
 	} else {
 		global.Logger.Errorln(err.Error())
